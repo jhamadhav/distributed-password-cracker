@@ -3,7 +3,7 @@
 <title>miniWebRTC | create</title>
 
 <h3>Create a room?</h3>
-<h3>To join a room open <a href="./client.html" target="_blank">client window</a> in another tab!!</h3>
+<h3>To join this room open <a href="./client.html" target="_blank">client window</a> in another tab!!</h3>
 <button id="createBtn">Create</button>
 <hr>
 <h3 id="myModalLabel">main: Send your local "offer" to others</h3>
@@ -36,7 +36,7 @@ Chat:
     let pcs = [], dcs = []
 
     // create
-    createBtn.onclick = function () {
+    createBtn.onclick = () => {
 
         let pc1 = new RTCPeerConnection(cfg, con)
 
@@ -50,7 +50,7 @@ Chat:
                 if (e.data.charCodeAt(0) == 2) {
                     return
                 }
-                var data = JSON.parse(e.data)
+                let data = JSON.parse(e.data)
                 if (data.type === 'file') {
                     fileReceiver1.receive(e.data, {})
                 } else {
@@ -66,7 +66,7 @@ Chat:
 
         }, () => { }, sdpConstraints)
 
-        pc1.onicecandidate = function (e) {
+        pc1.onicecandidate = (e) => {
             if (e.candidate == null) {
                 localOffer.value = JSON.stringify(pc1.localDescription);
                 console.log("main's offer");
@@ -79,16 +79,16 @@ Chat:
     };
 
     // main: pasted other's answer
-    answerRecdBtn.onclick = function () {
-        var answer = remoteAnswer.value;
+    answerRecdBtn.onclick = () => {
+        let answer = remoteAnswer.value;
         console.log("answer received!");
-        var answerDesc = new RTCSessionDescription(JSON.parse(answer))
+        let answerDesc = new RTCSessionDescription(JSON.parse(answer))
 
         pcs[pcs.length - 1].setRemoteDescription(answerDesc);
         console.log("you can start chatting!!");
     };
 
-    function sendMessage() {
+    sendMessage = () => {
         if (messageTextBox.value) {
 
             let msg = JSON.stringify({ message: messageTextBox.value })
