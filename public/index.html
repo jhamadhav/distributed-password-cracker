@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat arena</title>
+
+    <!-- socket io -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js">
+    </script>
+</head>
+
+<body>
+
+    <style>
+        .messenger {
+            position: absolute;
+            bottom: 6px;
+            left: 4px;
+        }
+    </style>
+
+    <div id="chat"></div>
+    <div class="messenger">
+        <input type="text" id="inp" placeholder="message">
+        <button id="btn">send</button>
+    </div>
+
+    <script>
+        let socket = io.connect('http://localhost:8000/')
+
+        socket.emit("create", "test")
+
+        document.getElementById("btn").onclick = () => {
+            let msg = document.getElementById("inp").value
+            console.log(msg);
+            socket.emit("message", msg)
+
+            addMessage(msg)
+        }
+        socket.on("message", (data) => {
+            addMessage(data)
+        })
+
+        addMessage = (data) => {
+            let div = document.getElementById("chat")
+
+            div.innerHTML += `<p>${data}</p>`
+        }
+
+    </script>
+</body>
+
+</html>
