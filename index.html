@@ -25,12 +25,25 @@ Chat:
 <script>
     localOffer.value = remoteAnswer.value = "";
 
+    let cfg = { 'iceServers': [{ 'url': "stun:stun.gmx.net" }] }
+    let con = { 'optional': [{ 'DtlsSrtpKeyAgreement': true }] }
+    let sdpConstraints = { optional: [], }
+
+    if (navigator.webkitGetUserMedia) {
+        RTCPeerConnection = webkitRTCPeerConnection
+    }
+
+    let pcs = [], dcs = []
+
     // create
     createBtn.onclick = function () {
-        dc1 = pc1.createDataChannel('test', { reliable: true })
-        activedc = dc1
-        dc1.onopen = function (e) { }
-        dc1.onmessage = function (e) {
+
+        let pc1 = new RTCPeerConnection(cfg, con)
+
+        let dc1 = pc1.createDataChannel('test', { reliable: true })
+
+        dc1.onopen = (e) => { }
+        dc1.onmessage = (e) => {
             if (e.data.size) {
                 fileReceiver1.receive(e.data, {})
             } else {
@@ -49,12 +62,20 @@ Chat:
 
         console.log("main: creating offer");
         pc1.createOffer((desc) => {
-            console.log("main's offer");
-            console.log(desc);
-
             pc1.setLocalDescription(desc, () => { }, () => { })
 
         }, () => { }, sdpConstraints)
+
+        pc1.onicecandidate = function (e) {
+            if (e.candidate == null) {
+                localOffer.value = JSON.stringify(pc1.localDescription);
+                console.log("main's offer");
+                console.log(localOffer.value);
+            }
+        }
+
+        pcs.push(pc1)
+        dcs.push(dc1)
     };
 
     // main: pasted other's answer
@@ -62,35 +83,25 @@ Chat:
         var answer = remoteAnswer.value;
         console.log("answer received!");
         var answerDesc = new RTCSessionDescription(JSON.parse(answer))
-        pc1.setRemoteDescription(answerDesc);
+
+        pcs[pcs.length - 1].setRemoteDescription(answerDesc);
         console.log("you can start chatting!!");
     };
 
-    if (navigator.webkitGetUserMedia) {
-        RTCPeerConnection = webkitRTCPeerConnection
-    }
-
-    let cfg = { 'iceServers': [{ 'url': "stun:stun.gmx.net" }] }
-    let con = { 'optional': [{ 'DtlsSrtpKeyAgreement': true }] }
-
-    let pc1 = new RTCPeerConnection(cfg, con), dc1 = null, tn1 = null, activedc, pc1icedone = false;
-
-    var sdpConstraints = {
-        optional: [],
-    }
-
     function sendMessage() {
         if (messageTextBox.value) {
-            activedc.send(JSON.stringify({ message: messageTextBox.value }));
+
+            let msg = JSON.stringify({ message: messageTextBox.value })
+
+            for (let i = 0; i < dcs.length; ++i) {
+                dcs[i].send(msg)
+            }
+
             chatlog.innerHTML += '[' + new Date() + '] ' + messageTextBox.value + '</p>';
             messageTextBox.value = "";
         }
         return false
     }
 
-    pc1.onicecandidate = function (e) {
-        if (e.candidate == null) {
-            localOffer.value = JSON.stringify(pc1.localDescription);
-        }
-    }
+
 </script>
