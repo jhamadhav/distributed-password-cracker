@@ -34,6 +34,10 @@ document.getElementById("join").onclick = () => {
         console.log("Invalid room id")
         return 0;
     }
+    if (roomID.includes("https://") || roomID.includes("http://")) {
+        window.location = roomID
+        return 0;
+    }
     window.location = `/room/${roomID}`
 }
 
