@@ -13,3 +13,8 @@ Demo of Distributed password cracker using webrtc to distribute load(set of rang
 
 # References
 - https://github.com/xem/miniWebRTC
+
+# Credits
+- Illustrations: https://undraw.co/illustrations
+- Icons: https://fontawesome.com/icons
+- Logo: https://www.flaticon.com/free-icons/distribution-network
