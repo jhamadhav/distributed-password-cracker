@@ -63,6 +63,21 @@ section {
     justify-content: flex-start;
     align-items: center;
 
+    button {
+        outline: none;
+        background: none;
+        cursor: pointer;
+        border: none;
+
+        &:hover {
+            transform: scale(.96);
+        }
+
+        &:active {
+            transform: scale(.92);
+        }
+    }
+
     .chat-area {
         width: 96%;
         height: 100%;
@@ -75,6 +90,16 @@ section {
         .text-holder {
             width: 100%;
             display: block;
+
+            .username {
+                font-size: small;
+                margin: 0;
+                margin-bottom: -8px;
+                width: 100px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .text {
@@ -87,12 +112,19 @@ section {
             color: #000;
             margin-top: 10px;
             max-width: 260px;
+            min-width: 120px;
         }
 
         .text-right {
             display: flex;
-            justify-content: right;
-            align-items: center;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+
+            .username {
+                text-align: right;
+                text-transform: capitalize;
+            }
 
             .text {
                 border-radius: 8px;
@@ -107,17 +139,24 @@ section {
                 outline: none;
                 border: none;
                 background: none;
-                background: #000;
+                font-size: medium;
+                width: 90%;
+                font-family: 'Montserrat', sans-serif;
             }
 
             background-color: #fff;
-            padding: 12px;
+            padding: 12px 20px;
             position: absolute;
             width: 22%;
             margin-left: 10px;
-            bottom: 14px;
-            border-radius: 50px 50px 50px 50px;
-            ;
+            bottom: 18px;
+            border-radius: 50px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1),
+            0 1px 4px rgba(0, 0, 0, 0.23);
+
+            i {
+                font-size: large;
+            }
         }
 
     }

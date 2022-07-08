@@ -5,6 +5,8 @@ const getRoom = () => {
     return loc[loc.length - 1]
 }
 
+let username = "anonymous"
+
 let socket = io.connect('http://localhost:8000/')
 
 socket.emit("create", getRoom())
@@ -113,22 +115,54 @@ socket.on("makeAnswer", (data) => {
     pcs.push(pc2)
 })
 
-document.getElementById("btn").onclick = () => {
-    let msg = document.getElementById("inp").value
+const getSendMsg = () => {
+    let msg = document.getElementById("msg").value
     console.log(msg);
     socket.emit("message", msg)
 
-    addMessage(msg)
+    addMessage(msg, 1)
 }
 
-const addMessage = (data) => {
-    let div = document.getElementById("chat")
+const addMessage = (msg, dir = 0) => {
+    let chatArena = document.getElementById("chat-texts")
 
-    div.innerHTML += `<p>${data}</p>`
+    let textHolder = document.createElement("div")
+    textHolder.classList.add("text-holder")
+
+    if (dir) {
+        textHolder.classList.add("text-right")
+    }
+
+    let usernameDiv = document.createElement("div")
+    usernameDiv.classList.add("username")
+    usernameDiv.innerText = "Anonymous"
+
+    let textMsg = document.createElement("div")
+    textMsg.classList.add("text")
+    textMsg.innerText = msg
+
+    textHolder.appendChild(usernameDiv)
+    textHolder.appendChild(textMsg)
+
+    chatArena.appendChild(textHolder)
+
+    let chatBox = document.getElementsByClassName("chat-area")[0]
+    chatBox.scrollTop = chatBox.scrollHeight
 }
 
 const sendMessage = (msg) => {
     for (let i = 0; i < dcs.length; ++i) {
         dcs[i].send(msg)
     }
+}
+
+document.addEventListener("keydown", (e) => {
+    // console.log(e.key);
+    if (e.key == "Enter") {
+        getSendMsg()
+    }
+})
+
+document.getElementById("send").onclick = () => {
+    getSendMsg()
 }
