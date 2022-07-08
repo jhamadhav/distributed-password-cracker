@@ -35,6 +35,7 @@ const io = require("socket.io")(server, {
 io.on('connection', (socket) => {
     console.log("New user connected")
 
+    socket.username = anonymous
     socket.on("create", (room) => {
         socket.room = room
 
@@ -46,8 +47,18 @@ io.on('connection', (socket) => {
         socket.join(room)
     })
 
-    socket.on("message", (data) => {
-        console.log(`message : "${data}" sent by user: ${socket.id} in room: ${socket.room}`);
+    socket.on("setUsername", (name) => {
+        if (name.length > 0) {
+            socket.username = name
+        }
+    })
+
+    socket.on("message", (msg) => {
+        console.log(`message : "${msg}" sent by user: ${socket.id} in room: ${socket.room}`);
+        let data = {
+            username: socket.username,
+            msg
+        }
         socket.in(socket.room).emit("message", data)
     })
 
