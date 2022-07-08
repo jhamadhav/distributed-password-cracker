@@ -17,11 +17,18 @@
     <link href="./images/logo.png" rel="icon" type="image/png" sizes="16x16">
     <link href="./images/logo.png" rel="icon" type="image/png" sizes="32x32">
 
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Raleway&family=Roboto&display=swap"
+        rel="stylesheet">
+
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- css -->
-
+    <link rel="stylesheet" href="./styles/main.min.css">
     <!-- scripts -->
     <script src="./scripts/main.js" defer></script>
 </head>
@@ -29,15 +36,19 @@
 <body>
 
     <div class="header">
-        <div class="logo"></div>
+        <img src="./images/logo.png" alt="logo" class="logo" width="60px">
         <div class="app-name">Distributed password cracker</div>
     </div>
     <div class="container">
         <section class="left">
-            <h1>Distributed password cracker</h1>
+            <div class="title">Distributed password cracker</div>
             <p>
-                Demo of Distributed password cracker using webrtc to distribute load(set of range of possible password)
-                to crack to each machine in the network.
+                Demo of Distributed password cracker using webrtc to distribute load (set of range of possible
+                password) to crack to each machine in the network.
+                <br>
+                <br>
+                You can create a new room or, <br>
+                Enter an existing room by pasting the <b>RoomID</b> or <b>link</b>
             </p>
             <div class="inp">
                 <button id="create">
@@ -47,17 +58,34 @@
                 <br>
                 <div class="inp-holder">
                     <i class="fa-regular fa-keyboard"></i>
-                    <input type="text" placeholder="Enter room code or url.." id="roomID">
+                    <input type="text" placeholder="Enter room code or url.." id="roomID" autocomplete="off">
                 </div>
-                <button id="join">Join</button>
+                <button id="join" disabled="true">Join</button>
+
+
+
+            </div>
+            <hr>
+            <div class="copyright">
+                <div id="cname">- By Madhav Jha</div>
+                <a href="https://jhamadhav.com/" target="_blank" title="portfolio">
+                    <i class="fa-solid fa-globe"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/jhamadhav/" target="_blank" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
             </div>
         </section>
         <section class="right">
-            <img src="./images/group.svg" alt="main svg">
+            <img src="./images/group.svg" alt="main svg" width="100px">
         </section>
     </div>
 
-
+    <div class="github-link">
+        <a href="https://github.com/jhamadhav/distributed-password-cracker" target="_blank" title="GitHub repo link">
+            <i class="fa-brands fa-github"></i>
+        </a>
+    </div>
 </body>
 
 </html>
