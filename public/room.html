@@ -5,31 +5,102 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chat arena</title>
+    <title>Distributed password cracker | Arena</title>
+
+    <meta property="og:title" content="Distributed password cracker">
+    <meta property="og:description"
+        content="Demo of Distributed password cracker using webrtc to distribute load(set of range of possible password) to crack to each machine in the network.">
+    <meta property="og:image" itemprop="image" content="./images/logo.png">
+    <meta property="og:url" content="name.com">
+
+    <!-- Main Link Tags  -->
+    <link href="./images/logo.png" rel="icon" type="image/png" sizes="16x16">
+    <link href="./images/logo.png" rel="icon" type="image/png" sizes="32x32">
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Raleway&family=Roboto&display=swap"
+        rel="stylesheet">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- socket io -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js">
     </script>
 
-    <!-- room.js -->
+    <!-- css -->
+    <link rel="stylesheet" href="./styles/room.min.css">
+    <!-- scripts -->
     <script src="../scripts/room.js" defer></script>
 </head>
 
 <body>
 
-    <style>
-        .messenger {
-            position: absolute;
-            bottom: 6px;
-            left: 4px;
-        }
-    </style>
+    <!-- 3 section -->
+    <!-- 1.online 2.password to crack 3. chat with master -->
+    <i class="fa-solid fa-paper-plane-top"></i>
+    <section class="online">
+        <div class="header">Users online</div>
+    </section>
+    <section class="password-to-crack">
+        <div class="header">
+            <img src="./images/logo.png" alt="logo" class="logo" width="60px">
+            <div class="app-name">Distributed password cracker</div>
+        </div>
+    </section>
+    <section class="chatRoom">
+        <div class="header">Chat Room</div>
+        <div class="chat-area">
+            <div class="bg">
 
-    <div id="chat"></div>
-    <div class="messenger">
-        <input type="text" id="inp" placeholder="message">
-        <button id="btn">send</button>
-    </div>
+            </div>
+            <div id="chat-texts">
+                <div class="text-holder">
+                    <div class="text">
+                        hi there
+                    </div>
+                </div>
+                <div class="text-holder text-right">
+                    <div class="text">
+                        hi there
+                    </div>
+                </div>
+                <div class="text-holder">
+                    <div class="text ">
+                        hi there
+                    </div>
+                </div>
+                <div class="text-holder text-right">
+                    <div class="text">
+                        hi there
+                    </div>
+                </div>
+                <div class="text-holder text-right">
+                    <div class="text">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, ratione! Aliquid voluptatibus
+                        consequuntur inventore iure nostrum culpa est similique itaque earum molestias numquam quaerat
+                        eos praesentium quisquam asperiores libero excepturi, minus doloremque officiis magnam autem
+                        quis soluta maiores! Tempora, distinctio?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab debitis voluptatum quasi delectus
+                        quis, asperiores nihil harum? Dolor doloremque tempore saepe, aliquid sunt deserunt blanditiis
+                        itaque iusto placeat est ut!
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="inp-section">
+                <i class="fa-solid fa-circle-envelope"></i>
+                <input type="text" placeholder="Your message.." id="msg">
+                <button>
+                    <i class="fa-solid fa-paper-plane-top"></i>
+                </button>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
