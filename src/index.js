@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require('cors')
+const path = require('path')
 const app = express()
 
 // port infos
@@ -11,7 +12,13 @@ app.use(express.static("public"))
 app.use(express.json())
 
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "../public/index.html")
+    res.sendFile(__dirname + "/../public/index.html")
+})
+
+app.get("/room/:roomID", (req, res) => {
+    let roomID = req.params.roomID
+    console.log(`room: ${roomID}`)
+    res.sendFile(path.resolve("public/room.html"))
 })
 
 // listen for requests :)
@@ -30,11 +37,21 @@ io.on('connection', (socket) => {
 
     socket.on("create", (room) => {
         socket.room = room
+
+        if (io.sockets.adapter.rooms.get(room)) {
+            console.log("room already exists")
+        }
+
+        console.log(`user: ${socket.id} joined room: ${socket.room}`)
         socket.join(room)
     })
 
     socket.on("message", (data) => {
-        console.log(data);
+        console.log(`message : "${data}" sent by user: ${socket.id} in room: ${socket.room}`);
         socket.in(socket.room).emit("message", data)
+    })
+
+    socket.on("disconnect", () => {
+        console.log(`user: ${socket.id} left room: ${socket.room}`);
     })
 });
