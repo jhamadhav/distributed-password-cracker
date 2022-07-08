@@ -88,7 +88,7 @@ io.on('connection', (socket) => {
     socket.on("message", (msg) => {
         console.log(`message : "${msg}" sent by user: ${socket.id} in room: ${socket.room}`);
         let data = {
-            username: socket.username,
+            username: socket.id,
             msg
         }
         socket.in(socket.room).emit("message", data)

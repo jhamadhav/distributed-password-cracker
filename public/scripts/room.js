@@ -120,10 +120,10 @@ const getSendMsg = () => {
     console.log(msg);
     socket.emit("message", msg)
 
-    addMessage(msg, 1)
+    addMessage({ username: "me", msg }, 1)
 }
 
-const addMessage = (msg, dir = 0) => {
+const addMessage = (data, dir = 0) => {
     let chatArena = document.getElementById("chat-texts")
 
     let textHolder = document.createElement("div")
@@ -135,11 +135,11 @@ const addMessage = (msg, dir = 0) => {
 
     let usernameDiv = document.createElement("div")
     usernameDiv.classList.add("username")
-    usernameDiv.innerText = "Anonymous"
+    usernameDiv.innerText = data.username || "Anonymous"
 
     let textMsg = document.createElement("div")
     textMsg.classList.add("text")
-    textMsg.innerText = msg
+    textMsg.innerText = data.msg
 
     textHolder.appendChild(usernameDiv)
     textHolder.appendChild(textMsg)
