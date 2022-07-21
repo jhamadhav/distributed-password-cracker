@@ -7,7 +7,7 @@ const getRoom = () => {
 
 let username = "anonymous"
 
-let socket = io.connect('http://localhost:8000/')
+let socket = io.connect('/')
 
 socket.emit("create", getRoom())
 
