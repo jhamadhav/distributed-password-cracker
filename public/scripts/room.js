@@ -6,14 +6,40 @@ const getRoom = () => {
 }
 
 let username = "anonymous"
+let myID
 
 let socket = io.connect('/')
 
 socket.emit("create", getRoom())
 
+socket.on("my-id", (id) => {
+    myID = id
+    console.log(`myID: ${id}`);
+})
+
 socket.on("message", (data) => {
     addMessage(data)
 })
+
+socket.on("user-room", (data) => {
+    // from this channel client can receive two things
+    // 1. info about newly added client
+    if (data["type"] == "get-all") {
+        console.log(data);
+        makeProfileOnline()
+    }
+
+    // 2. some user changes their username
+    if (data["type"] == "name-change") {
+        console.log(data);
+        document.getElementById(data.id + "-name").innerText = data["username"]
+    }
+})
+
+const makeProfileOnline = () => {
+
+}
+
 
 socket.on("makeOffer", (data) => {
     console.log(data);
@@ -165,4 +191,17 @@ document.addEventListener("keydown", (e) => {
 
 document.getElementById("send").onclick = () => {
     getSendMsg()
+}
+
+document.getElementById("change-username").onclick = () => {
+    let temp = document.getElementById("username")
+    username = temp
+    socket.emit(("user-room", {
+        "type": "name-change",
+        "name": username
+    }))
+}
+
+window.onload = () => {
+    socket.emit("user-room", { "type": "get-all" })
 }

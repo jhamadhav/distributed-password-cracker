@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require('cors')
 const path = require('path')
-const { log } = require("console")
+const { makeRandPic, getRandColor } = require('./utils/profileFunc')
 const app = express()
 
 // port infos
@@ -37,6 +37,11 @@ io.on('connection', (socket) => {
     console.log("New user connected")
 
     socket.username = "anonymous"
+    socket.pic = makeRandPic()
+    socket.color = getRandColor()
+
+    socket.emit("my-id", socket.id);
+
     socket.on("create", (room) => {
         socket.room = room
 
@@ -50,6 +55,17 @@ io.on('connection', (socket) => {
             io.sockets.to(socket.id).emit("makeOffer", "please make an offer")
         }
         socket.join(room)
+
+        //after joining share client details to all
+        let userData = {
+            "type": "get-all",
+            "id": socket.id,
+            "username": socket.username,
+            "pic": socket.pic,
+            "color": socket.color
+        }
+
+        socket.to(socket.room).emit("user-room", userData)
 
         console.log(`user: ${socket.id} joined room: ${socket.room}`)
     })
@@ -79,12 +95,6 @@ io.on('connection', (socket) => {
         io.sockets.to(data.clientID).emit("takeAnswer", data.answer)
     })
 
-    socket.on("setUsername", (name) => {
-        if (name.length > 0) {
-            socket.username = name
-        }
-    })
-
     socket.on("message", (msg) => {
         console.log(`message : "${msg}" sent by user: ${socket.id} in room: ${socket.room}`);
         let data = {
@@ -92,6 +102,46 @@ io.on('connection', (socket) => {
             msg
         }
         socket.in(socket.room).emit("message", data)
+    })
+
+    // exchange details about users in room
+    socket.on("user-room", (data) => {
+        // client can do following
+        // 1. ask about all users
+        if (data["type"] == "get-all") {
+            let roomInfo = io.sockets.adapter.rooms.get(socket.room)
+            // console.log(roomInfo);
+            roomInfo = Array.from(roomInfo)
+
+            for (let i = 0; i < roomInfo.length; ++i) {
+                let tempSocket = io.sockets.sockets.get(roomInfo[i])
+
+                let userData = {
+                    "type": "get-all",
+                    "id": tempSocket.id,
+                    "username": tempSocket.username,
+                    "pic": tempSocket.pic,
+                    "color": tempSocket.color
+                }
+
+                io.sockets.to(socket.id).emit("user-room", userData)
+            }
+
+        }
+
+        // 2. ask for their name change
+        if (data["type"] == 'name-change') {
+            if (data["name"].length > 0) {
+                socket.username = data["name"]
+
+                let userData = {
+                    "type": "name-change",
+                    "id": socket.id,
+                    "username": tempSocket.username
+                }
+                socket.in(socket.room).emit("user-room", userData)
+            }
+        }
     })
 
     socket.on("disconnect", () => {
