@@ -52,7 +52,78 @@ section {
 
 .online {
     width: 30%;
-    border-right: 1px solid #efefef;
+    border: 1px solid #efefef;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .profile-holder {
+        width: 96%;
+        height: 100%;
+        // background-color: #efefef;
+        border-radius: 4px;
+        overflow-y: auto;
+        padding-bottom: 80px;
+
+        .profile {
+            height: 80px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            background: #efefef;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1),
+                0 1px 4px rgba(0, 0, 0, 0.23);
+            transition: 300ms;
+
+            &:hover {
+                transform: scale(.98);
+                box-shadow: none;
+            }
+
+            .pic {
+                width: 100px;
+                height: 100px;
+                overflow: hidden;
+                border-radius: 50px;
+                transform: scale(.6);
+                padding: 0;
+            }
+
+            .details {
+                width: 60%;
+
+                .name {
+                    font-size: large;
+                    margin-bottom: 4px;
+                    text-transform: capitalize;
+                }
+
+                .id {
+                    font-family: 'Varela Round', sans-serif;
+                    font-size: small;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    transform: scale(.96);
+                }
+            }
+        }
+    }
+}
+
+.slide {
+    animation: slide 500ms linear;
+}
+
+@keyframes slide {
+    100% {
+        transform: translateX(-200%);
+    }
 }
 
 .chatRoom {

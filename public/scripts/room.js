@@ -6,15 +6,18 @@ const getRoom = () => {
 }
 
 let username = "anonymous"
-let myID
+let myID = ""
 
 let socket = io.connect('/')
 
 socket.emit("create", getRoom())
 
-socket.on("my-id", (id) => {
-    myID = id
-    console.log(`myID: ${id}`);
+socket.on("my-id", (data) => {
+    myID = data["id"]
+    console.log(`myID: ${myID}`);
+    makeProfileOnline(data)
+
+    document.getElementById(myID.toString() + "-name").innerText = "You"
 })
 
 socket.on("message", (data) => {
@@ -26,7 +29,7 @@ socket.on("user-room", (data) => {
     // 1. info about newly added client
     if (data["type"] == "get-all") {
         console.log(data);
-        makeProfileOnline()
+        makeProfileOnline(data)
     }
 
     // 2. some user changes their username
@@ -34,9 +37,60 @@ socket.on("user-room", (data) => {
         console.log(data);
         document.getElementById(data.id + "-name").innerText = data["username"]
     }
+
+    //3. user left
+    if (data["type"] == "left") {
+        console.log(`some one left: ${data.id}`);
+        let profileElem = document.getElementById(data.id)
+        console.log(profileElem);
+        profileElem.classList.add("slide")
+        profileElem.addEventListener("animationend", () => {
+            profileElem.style.display = "none"
+        })
+    }
 })
 
-const makeProfileOnline = () => {
+const makeProfile = (code, color, id) => {
+    let pic = `<svg id="${id}-pic" width="200" height="200" xmlns="http://www.w3.org/2000/svg">`
+
+    for (let i = 0; i < 25; ++i) {
+        let fillColor = (i < code.length && code[i] == '1') ? color : "#fff";
+
+        let x = (i % 5) * 20
+        let y = Math.floor(i / 5) * 20
+
+        pic += `<rect width="20" height="20" x=${x} y=${y} fill=${fillColor} />`
+    }
+
+    pic += "</svg>"
+    return pic
+}
+
+const makeProfileOnline = (data) => {
+
+    let idElem = document.getElementById(data["id"])
+
+    if (document.body.contains(idElem)) {
+        return
+    }
+
+    let ph = document.getElementsByClassName("profile-holder")[0]
+
+    ph.innerHTML += `<div class="profile" id="${data["id"]}">
+    <!-- svg image -->
+    <div class="pic">
+        ${makeProfile(data["pic"], data["color"], data["id"])}
+    </div>
+    <div class="details">
+        <div class="name" id="${data["id"]}-name">
+            ${data["name"]}
+        </div>
+        <div class="id">
+            <span>ID: </span> 
+            <span id="${data["id"]}-name" >${data["id"]}</span>
+        </div>
+    </div>
+</div>`
 
 }
 
@@ -193,14 +247,14 @@ document.getElementById("send").onclick = () => {
     getSendMsg()
 }
 
-document.getElementById("change-username").onclick = () => {
-    let temp = document.getElementById("username")
-    username = temp
-    socket.emit(("user-room", {
-        "type": "name-change",
-        "name": username
-    }))
-}
+// document.getElementById("change-username").onclick = () => {
+//     let temp = document.getElementById("username")
+//     username = temp
+//     socket.emit(("user-room", {
+//         "type": "name-change",
+//         "name": username
+//     }))
+// }
 
 window.onload = () => {
     socket.emit("user-room", { "type": "get-all" })

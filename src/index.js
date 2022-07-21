@@ -40,7 +40,12 @@ io.on('connection', (socket) => {
     socket.pic = makeRandPic()
     socket.color = getRandColor()
 
-    socket.emit("my-id", socket.id);
+    socket.emit("my-id", {
+        "id": socket.id,
+        "username": socket.username,
+        "pic": socket.pic,
+        "color": socket.color
+    });
 
     socket.on("create", (room) => {
         socket.room = room
@@ -60,7 +65,7 @@ io.on('connection', (socket) => {
         let userData = {
             "type": "get-all",
             "id": socket.id,
-            "username": socket.username,
+            "name": socket.username,
             "pic": socket.pic,
             "color": socket.color
         }
@@ -119,7 +124,7 @@ io.on('connection', (socket) => {
                 let userData = {
                     "type": "get-all",
                     "id": tempSocket.id,
-                    "username": tempSocket.username,
+                    "name": tempSocket.username,
                     "pic": tempSocket.pic,
                     "color": tempSocket.color
                 }
@@ -145,6 +150,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on("disconnect", () => {
+        let userData = {
+            "type": "left",
+            "id": socket.id,
+        }
+        socket.in(socket.room).emit("user-room", userData)
         console.log(`user: ${socket.id} left room: ${socket.room}`);
     })
 });
