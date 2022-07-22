@@ -33,9 +33,9 @@
     </script>
 
     <!-- css -->
-    <link rel="stylesheet" href="./styles/room.min.css">
+    <link rel="stylesheet" href="../styles/room.min.css">
     <!-- scripts -->
-    <script src="./scripts/room.js" defer></script>
+    <script src="../scripts/room.js" defer></script>
 </head>
 
 <body>
@@ -78,6 +78,13 @@
             <img src="../images/logo.png" alt="logo" class="logo" width="60px">
             <div class="app-name">Distributed password cracker</div>
         </div>
+
+        <div class="main-content">
+            <p>Password to crack</p>
+            <input type="number" id="p2c" placeholder="Add password to crack..">
+            <button id="start">Start</button>
+        </div>
+        <p class="warning">* Only master can edit the input and start cracking password</p>
         <div class="terminal-container">
             <div class="terminal">
                 <span>Logs: Details regarding load sharing and parellel cracking will appear here...
