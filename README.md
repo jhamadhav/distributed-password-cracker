@@ -11,6 +11,11 @@ Demo of Distributed password cracker using webrtc to distribute load(set of rang
     - Both find ICE candidates and connect P2P(peer to peer)
     - Thus communication begins 
 
+# Block diagram
+<p align="center">
+<img src="./public/images/block-diagram.png" height="350px" alt="block diagram">
+</p>
+
 # References
 - https://github.com/xem/miniWebRTC
 
