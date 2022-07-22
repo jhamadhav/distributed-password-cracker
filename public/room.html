@@ -77,6 +77,8 @@
         <div class="header">
             <img src="../images/logo.png" alt="logo" class="logo" width="60px">
             <div class="app-name">Distributed password cracker</div>
+            <i class="fa-solid fa-share-nodes" title="Copy room link"
+                onclick="navigator.clipboard.writeText(window.location.href);"></i>
         </div>
 
         <div class="main-content">
@@ -85,6 +87,7 @@
             <button id="start">Start</button>
         </div>
         <p class="warning">* Only master can edit the input and start cracking password</p>
+
         <div class="terminal-container">
             <div class="terminal">
                 <span>Logs: Details regarding load sharing and parellel cracking will appear here...

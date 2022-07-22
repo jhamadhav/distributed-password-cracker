@@ -34,6 +34,32 @@ $blue:#0477fd;
         text-transform: uppercase;
         font-size: x-large;
     }
+
+    i {
+        margin-left: 20px;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(.98);
+        }
+
+        &:active {
+            transform: scale(.96);
+
+            &::after {
+                position: absolute;
+                content: "Copied";
+                font-size: small;
+                color: #000;
+                margin-left: 10px;
+                padding: 6px;
+                background: #efefef;
+                border-radius: 4px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+
 }
 
 section {
