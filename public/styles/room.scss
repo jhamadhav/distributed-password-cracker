@@ -44,7 +44,7 @@ section {
     justify-content: space-around;
     justify-content: center;
     align-items: flex-start;
-    filter: blur(2px);
+    // filter: blur(2px);
 
     .header {
         font-size: x-large;
@@ -235,7 +235,45 @@ section {
 }
 
 .password-to-crack {
+    height: 100%;
+    border: 1px solid #efefef;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     background-color: #efefef;
+
+    .terminal-container {
+        width: inherit;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        .terminal {
+            width: inherit;
+            bottom: 0;
+            height: 160px;
+            font-family: monospace;
+            font-size: 16px;
+            color: #22da26;
+            background: #222;
+            border-top: 8px solid #000;
+            margin-bottom: -2px;
+            padding: 4px 10px;
+            overflow-y: scroll;
+
+            span {
+                &::before {
+                    content: '$ ';
+                    color: inherit;
+                }
+            }
+        }
+    }
+
+
 }
 
 .username-input {
