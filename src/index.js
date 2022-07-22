@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
     socket.on("message", (msg) => {
         console.log(`message : "${msg}" sent by user: ${socket.id} in room: ${socket.room}`);
         let data = {
-            username: socket.id,
+            username: socket.username,
             msg
         }
         socket.in(socket.room).emit("message", data)
@@ -142,8 +142,9 @@ io.on('connection', (socket) => {
                 let userData = {
                     "type": "name-change",
                     "id": socket.id,
-                    "username": tempSocket.username
+                    "username": socket.username
                 }
+                // console.log(userData);
                 socket.in(socket.room).emit("user-room", userData)
             }
         }

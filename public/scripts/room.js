@@ -17,6 +17,7 @@ socket.on("my-id", (data) => {
     console.log(`myID: ${myID}`);
     makeProfileOnline(data)
 
+    document.getElementById("pop-pic").innerHTML = makeProfile(data["pic"], data["color"], "pop-pic-id")
     document.getElementById(myID.toString() + "-name").innerText = "You"
 })
 
@@ -35,6 +36,7 @@ socket.on("user-room", (data) => {
     // 2. some user changes their username
     if (data["type"] == "name-change") {
         console.log(data);
+        console.log(data["username"]);
         document.getElementById(data.id + "-name").innerText = data["username"]
     }
 
@@ -197,6 +199,9 @@ socket.on("makeAnswer", (data) => {
 
 const getSendMsg = () => {
     let msg = document.getElementById("msg").value
+
+    if (msg.length == 0) return
+
     console.log(msg);
     socket.emit("message", msg)
 
@@ -236,9 +241,14 @@ const sendMessage = (msg) => {
     }
 }
 
+let focusFlag = 1
 document.addEventListener("keydown", (e) => {
     // console.log(e.key);
     if (e.key == "Enter") {
+        if (focusFlag) {
+            changeUsername()
+            focusFlag = 0
+        }
         getSendMsg()
     }
 })
@@ -247,14 +257,29 @@ document.getElementById("send").onclick = () => {
     getSendMsg()
 }
 
-// document.getElementById("change-username").onclick = () => {
-//     let temp = document.getElementById("username")
-//     username = temp
-//     socket.emit(("user-room", {
-//         "type": "name-change",
-//         "name": username
-//     }))
-// }
+document.getElementById("change-username").onclick = () => {
+    changeUsername()
+}
+
+const changeUsername = () => {
+
+    let temp = document.getElementById("username-inp")
+    username = temp.value
+    console.log(`my username: ${username}`);
+
+    let userData = {
+        "type": "name-change",
+        "name": username
+    }
+    // console.log(userData);
+    socket.emit("user-room", userData)
+
+    let secs = document.getElementsByTagName("section")
+    for (let i = 0; i < secs.length; ++i) {
+        secs[i].style.filter = 'none'
+    }
+    document.getElementsByClassName("username-input")[0].style.display = "none"
+}
 
 window.onload = () => {
     socket.emit("user-room", { "type": "get-all" })
