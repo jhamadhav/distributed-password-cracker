@@ -1,0 +1,26 @@
+{
+  "name": "distributed-password-cracker",
+  "version": "1.0.0",
+  "description": "Demo of Distributed password cracker using webrtc to distribute load(set of range of possible password) to crack to each machine in the network.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhamadhav/distributed-password-cracker.git"
+  },
+  "author": "Madhav Jha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhamadhav/distributed-password-cracker/issues"
+  },
+  "homepage": "https://github.com/jhamadhav/distributed-password-cracker#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "path": "^0.12.7",
+    "socket.io": "^4.5.1"
+  }
+}

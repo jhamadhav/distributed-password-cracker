@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile pic</title>
+</head>
+
+<body>
+    <div id="pic"></div>
+
+    <script>
+        const profileColor = [
+            "#267365",
+            "#F29F05",
+            "#F23030",
+            "#F28705"
+        ]
+
+        const randColor = () => {
+            return profileColor[Math.floor(Math.random() * (profileColor.length))]
+        }
+        const randPic = () => {
+            let res = ""
+            for (let i = 0; i < 25; ++i) {
+                res += (Math.random() < 0.4) ? "1" : "0"
+            }
+            return res
+        }
+
+        const makeProfile = (code, color, id) => {
+            let pic = `<svg id=${id} width="200" height="200" xmlns="http://www.w3.org/2000/svg">`
+
+            for (let i = 0; i < 25; ++i) {
+                let fillColor = (i < code.length && code[i] == '1') ? color : "#fff";
+
+                let x = (i % 5) * 20
+                let y = Math.floor(i / 5) * 20
+
+                pic += `<rect width="20" height="20" x=${x} y=${y} fill=${fillColor} />`
+            }
+
+            pic += "</svg>"
+            return pic
+        }
+        document.getElementById("pic").innerHTML = makeProfile(randPic(), randColor(), "hi")
+    </script>
+</body>
+
+</html>

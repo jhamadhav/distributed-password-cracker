@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed password cracker | Arena</title>
+
+    <meta property="og:title" content="Distributed password cracker">
+    <meta property="og:description"
+        content="Demo of Distributed password cracker using webrtc to distribute load(set of range of possible password) to crack to each machine in the network.">
+    <meta property="og:image" itemprop="image" content="./images/logo.png">
+    <meta property="og:url" content="name.com">
+
+    <!-- Main Link Tags  -->
+    <link href="./images/logo.png" rel="icon" type="image/png" sizes="16x16">
+    <link href="./images/logo.png" rel="icon" type="image/png" sizes="32x32">
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat&family=Raleway&family=Roboto&family=Varela+Round&display=swap"
+        rel="stylesheet">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- socket io -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js">
+    </script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="../styles/room.min.css">
+    <!-- scripts -->
+    <script src="../scripts/room.js" defer></script>
+</head>
+
+<body>
+
+    <!-- 3 section -->
+    <!-- 1.online 2.password to crack 3. chat with master -->
+    <!-- <i class="fa-solid fa-paper-plane-top"></i> -->
+
+    <div class="username-input">
+        <div id="pop-pic">
+
+        </div>
+        <div class="inp-holder">
+            <input type="text" id="username-inp" placeholder="Anonymous" autofocus>
+            <button id="change-username">Enter</button>
+        </div>
+    </div>
+
+    <section class="online">
+        <div class="header">Users online</div>
+        <div class="profile-holder">
+            <!-- dummy -->
+            <!-- <div class="profile slide">
+                <div class="pic">
+
+                </div>
+                <div class="details">
+                    <div class="name">
+                        Anonymous
+                    </div>
+                    <div class="id">
+                        <span>ID: </span> <span>jytrdcvbnjkuytrdcvbnjuytfdcvbn</span>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    <section class="password-to-crack">
+        <div class="header">
+            <img src="../images/logo.png" alt="logo" class="logo" width="60px">
+            <div class="app-name">Distributed password cracker</div>
+            <i class="fa-solid fa-share-nodes" title="Copy room link"
+                onclick="navigator.clipboard.writeText(window.location.href);"></i>
+        </div>
+
+        <div class="main-content">
+            <p>Password to crack</p>
+            <input type="number" id="p2c" placeholder="Add password to crack..">
+            <button id="start">Start</button>
+        </div>
+        <p class="warning">* Only master can edit the input and start cracking password</p>
+
+        <div class="terminal-container">
+            <div class="terminal">
+                <span>Logs: Details regarding load sharing and parellel cracking will appear here...
+                </span>
+            </div>
+        </div>
+    </section>
+    <section class="chatRoom">
+        <div class="header">Chat Room</div>
+        <div class="chat-area">
+            <div class="bg">
+
+            </div>
+            <div id="chat-texts">
+                <div class="text-holder text-right">
+                    <div class="username">Developer</div>
+                    <div class="text">
+                        Start chatting...
+                    </div>
+                </div>
+            </div>
+            <div class="inp-section">
+
+                <input type="text" placeholder="Your message.." id="msg">
+                <button id="send"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
